@@ -1,0 +1,84 @@
+{
+    "short_name": "IMS",
+    "name": "Inventory Management System",
+    "description": "Inventory Management System is a web application for managing your club, including inventory management, sales tracking, and reporting.",
+    "categories": [
+      "Management",
+      "Inventory",
+      "Report"
+      ],
+      "display": "standalone",
+      "screenshots": [
+        {
+        "src": "/img/login.png",
+        "sizes": "586x1041",
+        "type": "image/png"
+        }
+        ],
+    "icons": [
+      {
+        "src": "favicon.ico",
+        "sizes": "64x64 32x32 24x24 16x16",
+        "type": "image/x-icon"
+      },
+      {
+        "src": "android-chrome-192x192.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      },
+      {
+        "src": "android-chrome-512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "shortcuts":[
+      {
+        "name":"Dashboard",
+        "short_name": "dashboard",
+        "description": "View Dashboard",
+        "url": "/?utm_source=jumplist&utm_medium=shortcut",
+        "icons": [{"src":"https://todoly1.netlify.app/icons/edit.png",
+          "type": "image/png",
+          "sizes": "192x192"
+        }]
+
+      },
+      {
+        "name":"Report",
+        "short_name": "Report",
+        "description": "Sales/purchase Report",
+        "url": "/report?utm_source=jumplist&utm_medium=shortcut",
+        "icons": [{"src":"https://todoly1.netlify.app/icons/feed.png",
+          "type": "image/png",
+          "sizes": "192x192"
+        }]
+
+      },
+      {
+        "name":"Setting",
+        "short_name": "Setting",
+        "description": "Update Your Setting",
+        "url": "/setting?utm_source=jumplist&utm_medium=shortcut",
+        "icons": [{"src":"https://todoly1.netlify.app/icons/edit.png",
+          "type": "image/png",
+          "sizes": "192x192"
+        }]
+  }
+],
+    "start_url": "/",
+    "id":"/?home=true",
+    "display_override": ["fullscreen"],
+    "orientation": "portrait",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "launch_handler": {
+      "route_to": "existing-client",
+      "navigate_existing_client": "never"
+    },
+    "url_handlers":[
+      {
+        "origin":"https://localhost:5716/"
+      }
+    ]
+  }

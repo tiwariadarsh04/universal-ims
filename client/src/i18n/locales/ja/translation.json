@@ -1,0 +1,46 @@
+{
+  "common": {
+    "add": "追加",
+    "remove": "削除",
+    "edit": "編集",
+    "delete": "削除",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "confirm": "確認",
+    "back": "戻る",
+    "next": "次へ",
+    "search": "検索",
+    "filter": "フィルタ",
+    "sort": "並べ替え",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "welcome": "ようこそ"
+  },
+  "menu": {
+    "title": "メニュー",
+    "categories": "カテゴリー",
+    "allItems": "すべてのアイテム",
+    "explore": "料理や飲み物をご覧ください",
+    "categories": {
+      "all": "すべて",
+      "bar": "バー",
+      "beverages": "飲料",
+      "kitchen": "キッチン",
+      "others": "その他"
+    }
+  },
+  "cart": {
+    "title": "カート",
+    "total": "合計",
+    "checkout": "チェックアウト",
+    "quantity": "数量"
+  },
+  "orders": {
+    "pendingOrders": "保留中の注文",
+    "status": {
+      "preparing": "準備中"
+    },
+    "trackOrder": "注文を追跡"
+  }
+} 

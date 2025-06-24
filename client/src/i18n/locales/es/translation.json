@@ -1,0 +1,149 @@
+{
+  "common": {
+    "add": "Añadir",
+    "remove": "Eliminar",
+    "edit": "Editar",
+    "delete": "Borrar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "confirm": "Confirmar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "welcome": "Bienvenido"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "logout": "Cerrar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forgotPassword": "¿Olvidó su contraseña?",
+    "resetPassword": "Restablecer contraseña",
+    "username": "Nombre de usuario",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "confirmPassword": "Confirmar contraseña",
+    "signIn": "Iniciar sesión",
+    "signUp": "Registrarse",
+    "rememberMe": "Recordarme"
+  },
+  "menu": {
+    "title": "Menú",
+    "categories": "Categorías",
+    "popular": "Artículos populares",
+    "recommended": "Recomendados",
+    "special": "Ofertas especiales",
+    "addToCart": "Añadir al carrito",
+    "viewDetails": "Ver detalles",
+    "ingredients": "Ingredientes",
+    "nutritionInfo": "Información nutricional",
+    "allergies": "Alergias",
+    "price": "Precio",
+    "quantity": "Cantidad",
+    "total": "Total",
+    "specialInstructions": "Instrucciones especiales"
+  },
+  "cart": {
+    "title": "Carrito",
+    "empty": "Tu carrito está vacío",
+    "items": "Artículos",
+    "subtotal": "Subtotal",
+    "tax": "Impuesto",
+    "delivery": "Entrega",
+    "total": "Total",
+    "checkout": "Finalizar compra",
+    "continueShopping": "Continuar comprando",
+    "removeItem": "Eliminar artículo",
+    "clearCart": "Vaciar carrito",
+    "applyCoupon": "Aplicar cupón",
+    "estimatedDelivery": "Tiempo estimado de entrega"
+  },
+  "profile": {
+    "title": "Perfil",
+    "personalInfo": "Información personal",
+    "orders": "Pedidos",
+    "favorites": "Favoritos",
+    "addresses": "Direcciones",
+    "paymentMethods": "Métodos de pago",
+    "preferences": "Preferencias",
+    "notifications": "Notificaciones",
+    "security": "Seguridad",
+    "language": "Idioma",
+    "theme": "Tema",
+    "helpCenter": "Centro de ayuda",
+    "aboutUs": "Acerca de nosotros",
+    "termsConditions": "Términos y condiciones",
+    "privacyPolicy": "Política de privacidad"
+  },
+  "settings": {
+    "title": "Configuración",
+    "appearance": {
+      "title": "Tema y apariencia",
+      "darkMode": "Modo oscuro",
+      "lightMode": "Modo claro",
+      "systemDefault": "Valor predeterminado del sistema",
+      "fontSize": "Tamaño de fuente",
+      "animations": "Animaciones"
+    },
+    "language": {
+      "title": "Idioma y región",
+      "selectLanguage": "Seleccionar idioma",
+      "autoDetect": "Detectar idioma automáticamente",
+      "translateMenuItems": "Traducir elementos del menú"
+    },
+    "developer": {
+      "title": "Herramientas para desarrolladores",
+      "apiLogging": "Registro de API",
+      "reduxDebugger": "Depurador de Redux",
+      "performanceMonitor": "Monitor de rendimiento",
+      "maintenanceMode": "Modo de mantenimiento",
+      "draggableMenu": "Menú arrastrable"
+    },
+    "helpdesk": {
+      "title": "Mesa de ayuda y comentarios",
+      "reportBug": "Reportar error",
+      "featureRequest": "Solicitar función",
+      "generalFeedback": "Comentarios generales",
+      "contactSupport": "Contactar con soporte"
+    }
+  },
+  "orders": {
+    "title": "Pedidos",
+    "orderHistory": "Historial de pedidos",
+    "activeOrders": "Pedidos activos",
+    "pastOrders": "Pedidos anteriores",
+    "orderDetails": "Detalles del pedido",
+    "orderID": "ID del pedido",
+    "orderDate": "Fecha del pedido",
+    "orderStatus": "Estado del pedido",
+    "trackOrder": "Seguir pedido",
+    "reorder": "Volver a pedir",
+    "cancelOrder": "Cancelar pedido",
+    "deliveryAddress": "Dirección de entrega",
+    "paymentMethod": "Método de pago",
+    "status": {
+      "pending": "Pendiente",
+      "confirmed": "Confirmado",
+      "preparing": "Preparando",
+      "readyForPickup": "Listo para recoger",
+      "outForDelivery": "En camino",
+      "delivered": "Entregado",
+      "cancelled": "Cancelado"
+    }
+  },
+  "errors": {
+    "general": "Algo salió mal",
+    "notFound": "No encontrado",
+    "unauthorized": "No autorizado",
+    "forbidden": "Prohibido",
+    "serverError": "Error del servidor",
+    "networkError": "Error de red",
+    "try_again": "Por favor, inténtelo de nuevo"
+  }
+} 

@@ -1,0 +1,69 @@
+{
+  "common": {
+    "add": "Ajouter",
+    "remove": "Supprimer",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "save": "Sauvegarder",
+    "confirm": "Confirmer",
+    "back": "Retour",
+    "next": "Suivant",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "welcome": "Bienvenue"
+  },
+  "menu": {
+    "title": "Menu",
+    "categories": "Catégories",
+    "allItems": "Tous les articles",
+    "popular": "Articles populaires",
+    "recommended": "Recommandés",
+    "special": "Offres spéciales",
+    "addToCart": "Ajouter au panier",
+    "viewDetails": "Voir les détails",
+    "ingredients": "Ingrédients",
+    "nutritionInfo": "Info nutritionnelle",
+    "allergies": "Allergies",
+    "price": "Prix",
+    "quantity": "Quantité",
+    "total": "Total",
+    "explore": "Explorez notre sélection de plats et boissons",
+    "specialInstructions": "Instructions spéciales",
+    "categories": {
+      "all": "Tous",
+      "bar": "Bar",
+      "beverages": "Boissons",
+      "kitchen": "Cuisine",
+      "others": "Autres"
+    }
+  },
+  "cart": {
+    "title": "Panier",
+    "empty": "Votre panier est vide",
+    "items": "Articles",
+    "subtotal": "Sous-total",
+    "tax": "Taxe",
+    "delivery": "Livraison",
+    "total": "Total",
+    "checkout": "Commander",
+    "continueShopping": "Continuer les achats",
+    "removeItem": "Supprimer l'article",
+    "clearCart": "Vider le panier",
+    "applyCoupon": "Appliquer un coupon",
+    "estimatedDelivery": "Temps de livraison estimé",
+    "quantity": "Quantité"
+  },
+  "orders": {
+    "title": "Commandes",
+    "pendingOrders": "Commandes en attente",
+    "status": {
+      "preparing": "En préparation"
+    },
+    "trackOrder": "Suivre la commande"
+  }
+} 

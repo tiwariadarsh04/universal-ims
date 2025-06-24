@@ -1,0 +1,46 @@
+{
+  "common": {
+    "add": "Hinzufügen",
+    "remove": "Entfernen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "confirm": "Bestätigen",
+    "back": "Zurück",
+    "next": "Weiter",
+    "search": "Suchen",
+    "filter": "Filtern",
+    "sort": "Sortieren",
+    "loading": "Laden...",
+    "error": "Fehler",
+    "success": "Erfolg",
+    "welcome": "Willkommen"
+  },
+  "menu": {
+    "title": "Speisekarte",
+    "categories": "Kategorien",
+    "allItems": "Alle Artikel",
+    "explore": "Entdecken Sie unsere Auswahl an Speisen und Getränken",
+    "categories": {
+      "all": "Alle",
+      "bar": "Bar",
+      "beverages": "Getränke",
+      "kitchen": "Küche",
+      "others": "Andere"
+    }
+  },
+  "cart": {
+    "title": "Warenkorb",
+    "total": "Gesamt",
+    "checkout": "Zur Kasse",
+    "quantity": "Menge"
+  },
+  "orders": {
+    "pendingOrders": "Ausstehende Bestellungen",
+    "status": {
+      "preparing": "Wird zubereitet"
+    },
+    "trackOrder": "Bestellung verfolgen"
+  }
+} 

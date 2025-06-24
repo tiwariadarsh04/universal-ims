@@ -1,0 +1,259 @@
+{
+  "common": {
+    "add": "जोड़ें",
+    "remove": "हटाएं",
+    "edit": "संपादित करें",
+    "delete": "हटाएं",
+    "cancel": "रद्द करें",
+    "save": "सहेजें",
+    "confirm": "पुष्टि करें",
+    "back": "वापस",
+    "next": "अगला",
+    "search": "खोजें",
+    "filter": "फ़िल्टर",
+    "sort": "क्रमबद्ध करें",
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "success": "सफलता",
+    "welcome": "स्वागत है",
+    "active": "सक्रिय",
+    "processing": "प्रोसेसिंग...",
+    "gotIt": "समझ गया",
+    "poweredBy": "द्वारा संचालित",
+    "noData": "कोई डेटा उपलब्ध नहीं है",
+    "uncategorized": "अवर्गीकृत",
+    "returnToHome": "होम पर वापस जाएं"
+  },
+  "auth": {
+    "login": "लॉग इन",
+    "register": "पंजीकरण",
+    "logout": "लॉग आउट",
+    "email": "ईमेल",
+    "password": "पासवर्ड",
+    "forgotPassword": "पासवर्ड भूल गए?",
+    "resetPassword": "पासवर्ड रीसेट करें",
+    "username": "उपयोगकर्ता नाम",
+    "firstName": "पहला नाम",
+    "lastName": "अंतिम नाम",
+    "confirmPassword": "पासवर्ड की पुष्टि करें",
+    "signIn": "साइन इन करें",
+    "signUp": "साइन अप करें",
+    "rememberMe": "मुझे याद रखें"
+  },
+  "menu": {
+    "title": "मेनू",
+    "categories": "श्रेणियाँ",
+    "popular": "लोकप्रिय आइटम",
+    "recommended": "अनुशंसित",
+    "special": "विशेष ऑफर",
+    "addToCart": "कार्ट में जोड़ें",
+    "viewDetails": "विवरण देखें",
+    "ingredients": "सामग्री",
+    "nutritionInfo": "पोषण जानकारी",
+    "allergies": "एलर्जी",
+    "price": "मूल्य",
+    "quantity": "मात्रा",
+    "total": "कुल",
+    "specialInstructions": "विशेष निर्देश",
+    "allItems": "सभी आइटम",
+    "explore": "हमारे व्यंजनों और पेय पदार्थों का अन्वेषण करें",
+    "categories": {
+      "all": "सभी",
+      "bar": "बार",
+      "beverages": "पेय पदार्थ",
+      "kitchen": "रसोई",
+      "others": "अन्य"
+    },
+    "dashboard": "डैशबोर्ड",
+    "dashboard.aria": "डैशबोर्ड पर जाएं",
+    "invoiceBilling": "चालान बिलिंग",
+    "invoiceBilling.aria": "चालान बिलिंग पर जाएं",
+    "transactions": "लेन-देन",
+    "transactions.aria": "लेन-देन पर जाएं",
+    "partyManagement": "पार्टी प्रबंधन",
+    "partyManagement.aria": "पार्टी प्रबंधन पर जाएं",
+    "inventory": "इन्वेंटरी",
+    "inventory.aria": "इन्वेंटरी पर जाएं",
+    "analytics": "विश्लेषण",
+    "analytics.aria": "विश्लेषण पर जाएं",
+    "management": "प्रबंधन",
+    "management.aria": "प्रबंधन पर जाएं",
+    "home": "होम",
+    "menu": "मेन्यू",
+    "invoice": "चालान",
+    "profile": "प्रोफ़ाइल"
+  },
+  "cart": {
+    "title": "कार्ट",
+    "empty": "आपका कार्ट खाली है",
+    "items": "आइटम",
+    "subtotal": "उप-योग",
+    "tax": "कर",
+    "delivery": "डिलीवरी",
+    "total": "कुल",
+    "checkout": "चेकआउट",
+    "continueShopping": "खरीदारी जारी रखें",
+    "removeItem": "आइटम हटाएं",
+    "clearCart": "कार्ट खाली करें",
+    "applyCoupon": "कूपन लागू करें",
+    "estimatedDelivery": "अनुमानित डिलीवरी समय",
+    "quantity": "मात्रा"
+  },
+  "profile": {
+    "title": "प्रोफ़ाइल",
+    "personalInfo": "व्यक्तिगत जानकारी",
+    "orders": "ऑर्डर",
+    "favorites": "पसंदीदा",
+    "addresses": "पते",
+    "paymentMethods": "भुगतान विधियां",
+    "preferences": "प्राथमिकताएं",
+    "notifications": "सूचनाएं",
+    "security": "सुरक्षा",
+    "language": "भाषा",
+    "theme": "थीम",
+    "helpCenter": "सहायता केंद्र",
+    "aboutUs": "हमारे बारे में",
+    "termsConditions": "नियम और शर्तें",
+    "privacyPolicy": "गोपनीयता नीति"
+  },
+  "settings": {
+    "title": "सेटिंग्स",
+    "appearance": {
+      "title": "थीम और उपस्थिति",
+      "darkMode": "डार्क मोड",
+      "lightMode": "लाइट मोड",
+      "systemDefault": "सिस्टम डिफ़ॉल्ट",
+      "fontSize": "फ़ॉन्ट आकार",
+      "animations": "एनिमेशन"
+    },
+    "language": {
+      "title": "भाषा और क्षेत्र",
+      "subtitle": "अपनी एप्लिकेशन की भाषा सेटिंग्स को अनुकूलित करें",
+      "applicationLanguage": "एप्लिकेशन भाषा",
+      "selectPreferred": "एप्लिकेशन इंटरफ़ेस के लिए अपनी पसंदीदा भाषा चुनें",
+      "settings": "भाषा सेटिंग्स",
+      "description": "भाषा सेटिंग्स एप्लिकेशन इंटरफ़ेस के सभी टेक्स्ट को प्रभावित करती हैं। भाषा बदलने से बटन, मेनू और अन्य UI एलिमेंट्स का अनुवाद हो जाएगा।",
+      "selectLanguage": "भाषा चुनें",
+      "autoDetect": "स्वचालित भाषा पहचान",
+      "translateMenuItems": "मेनू आइटम अनुवाद करें"
+    },
+    "developer": {
+      "title": "डेवलपर टूल्स",
+      "apiLogging": "API लॉगिंग",
+      "reduxDebugger": "रेडक्स डीबगर",
+      "performanceMonitor": "प्रदर्शन मॉनिटर",
+      "maintenanceMode": "रखरखाव मोड",
+      "draggableMenu": "ड्रैग करने योग्य मेनू"
+    },
+    "helpdesk": {
+      "title": "हेल्पडेस्क और प्रतिक्रिया",
+      "reportBug": "बग रिपोर्ट करें",
+      "featureRequest": "फीचर अनुरोध",
+      "generalFeedback": "सामान्य प्रतिक्रिया",
+      "contactSupport": "सहायता से संपर्क करें"
+    }
+  },
+  "orders": {
+    "title": "ऑर्डर",
+    "orderHistory": "ऑर्डर इतिहास",
+    "activeOrders": "सक्रिय ऑर्डर",
+    "pastOrders": "पिछले ऑर्डर",
+    "orderDetails": "ऑर्डर विवरण",
+    "orderID": "ऑर्डर आईडी",
+    "orderDate": "ऑर्डर तिथि",
+    "orderStatus": "ऑर्डर स्थिति",
+    "trackOrder": "ऑर्डर ट्रैक करें",
+    "reorder": "फिर से ऑर्डर करें",
+    "cancelOrder": "ऑर्डर रद्द करें",
+    "deliveryAddress": "डिलीवरी पता",
+    "paymentMethod": "भुगतान विधि",
+    "pendingOrders": "लंबित आदेश",
+    "status": {
+      "pending": "लंबित",
+      "confirmed": "पुष्टि की गई",
+      "preparing": "तैयार हो रहा है",
+      "readyForPickup": "पिकअप के लिए तैयार",
+      "outForDelivery": "डिलीवरी के लिए बाहर",
+      "delivered": "डिलीवर किया गया",
+      "cancelled": "रद्द किया गया"
+    }
+  },
+  "errors": {
+    "general": "कुछ गलत हो गया",
+    "notFound": "नहीं मिला",
+    "unauthorized": "अनधिकृत",
+    "forbidden": "निषिद्ध",
+    "serverError": "सर्वर त्रुटि",
+    "networkError": "नेटवर्क त्रुटि",
+    "try_again": "कृपया पुनः प्रयास करें"
+  },
+  "dialog": {
+    "confirm": {
+      "title": "कार्य की पुष्टि करें",
+      "subtitle": "कृपया आगे बढ़ने से पहले समीक्षा करें",
+      "message": "क्या आप वाकई आगे बढ़ना चाहते हैं?",
+      "summary": "सारांश",
+      "warning": "यह कार्य पूर्ववत नहीं किया जा सकता"
+    },
+    "alert": {
+      "error": {
+        "title": "त्रुटि",
+        "subtitle": "कृपया निम्नलिखित समस्या को ठीक करें",
+        "message": "एक त्रुटि हुई है"
+      },
+      "warning": {
+        "title": "चेतावनी",
+        "subtitle": "कृपया ध्यान दें",
+        "message": "यह कार्य जोखिम भरा हो सकता है"
+      },
+      "success": {
+        "title": "सफलता",
+        "subtitle": "कार्य सफल रहा",
+        "message": "आपका कार्य सफलतापूर्वक पूरा हो गया है"
+      },
+      "info": {
+        "title": "जानकारी",
+        "subtitle": "महत्वपूर्ण जानकारी",
+        "message": "कृपया यह जानकारी ध्यान से पढ़ें"
+      }
+    }
+  },
+  "analytics": {
+    "tooltip": {
+      "amount": "₹{{value}}",
+      "transactions": "{{value}} लेन-देन",
+      "items": "{{value}} आइटम"
+    },
+    "label": {
+      "amount": "कुल राशि",
+      "transactions": "लेन-देन की संख्या",
+      "items": "आइटम की संख्या"
+    },
+    "table": {
+      "showingTransactions": "{{count}} कुल लेन-देन में से अंतिम 5 लेन-देन दिखा रहे हैं",
+      "total": "कुल",
+      "gst": "जीएसटी",
+      "net": "कुल योग",
+      "date": "दिनांक",
+      "member": "सदस्य",
+      "quantity": "मात्रा",
+      "amount": "राशि",
+      "invoice": "चालान",
+      "amountValue": "₹{{amount}}"
+    },
+    "item": {
+      "selectItemToViewDetails": "विवरण देखने के लिए एक आइटम चुनें",
+      "totalQuantity": "कुल मात्रा: {{quantity}}",
+      "totalRevenue": "कुल राजस्व: ₹{{revenue}}",
+      "averagePrice": "औसत मूल्य: ₹{{price}}",
+      "category": "श्रेणी: {{category}}",
+      "recentTransactions": "हाल के लेन-देन"
+    }
+  },
+  "feedback": {
+    "thankYou": "धन्यवाद!",
+    "successMessage": "आपकी प्रतिक्रिया सफलतापूर्वक जमा कर दी गई है",
+    "appreciationMessage": "हम आपके समय के लिए और आपकी प्रतिक्रिया साझा करने के लिए आभारी हैं। हमारी टीम आपके अनुरोध की समीक्षा करेगी और यदि आवश्यक हुआ तो आपसे संपर्क करेगी।",
+    "helpImprove": "आपकी राय हमें बेहतर बनाने में मदद करती है!"
+  }
+} 

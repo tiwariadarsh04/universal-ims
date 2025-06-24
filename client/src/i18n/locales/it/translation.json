@@ -1,0 +1,46 @@
+{
+  "common": {
+    "add": "Aggiungi",
+    "remove": "Rimuovi",
+    "edit": "Modifica",
+    "delete": "Elimina",
+    "cancel": "Annulla",
+    "save": "Salva",
+    "confirm": "Conferma",
+    "back": "Indietro",
+    "next": "Avanti",
+    "search": "Cerca",
+    "filter": "Filtra",
+    "sort": "Ordina",
+    "loading": "Caricamento...",
+    "error": "Errore",
+    "success": "Successo",
+    "welcome": "Benvenuto"
+  },
+  "menu": {
+    "title": "Menu",
+    "categories": "Categorie",
+    "allItems": "Tutti gli articoli",
+    "explore": "Esplora la nostra selezione di piatti e bevande",
+    "categories": {
+      "all": "Tutti",
+      "bar": "Bar",
+      "beverages": "Bevande",
+      "kitchen": "Cucina",
+      "others": "Altri"
+    }
+  },
+  "cart": {
+    "title": "Carrello",
+    "total": "Totale",
+    "checkout": "Checkout",
+    "quantity": "Quantità"
+  },
+  "orders": {
+    "pendingOrders": "Ordini in attesa",
+    "status": {
+      "preparing": "In preparazione"
+    },
+    "trackOrder": "Traccia ordine"
+  }
+} 

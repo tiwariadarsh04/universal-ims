@@ -1,0 +1,46 @@
+{
+  "common": {
+    "add": "إضافة",
+    "remove": "إزالة",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "confirm": "تأكيد",
+    "back": "رجوع",
+    "next": "التالي",
+    "search": "بحث",
+    "filter": "تصفية",
+    "sort": "ترتيب",
+    "loading": "جار التحميل...",
+    "error": "خطأ",
+    "success": "نجاح",
+    "welcome": "مرحبًا"
+  },
+  "menu": {
+    "title": "القائمة",
+    "categories": "الفئات",
+    "allItems": "جميع العناصر",
+    "explore": "استكشف مجموعة الأطباق والمشروبات لدينا",
+    "categories": {
+      "all": "الكل",
+      "bar": "المشروبات",
+      "beverages": "المشروبات",
+      "kitchen": "المطبخ",
+      "others": "أخرى"
+    }
+  },
+  "cart": {
+    "title": "سلة التسوق",
+    "total": "المجموع",
+    "checkout": "الدفع",
+    "quantity": "الكمية"
+  },
+  "orders": {
+    "pendingOrders": "الطلبات المعلقة",
+    "status": {
+      "preparing": "قيد التحضير"
+    },
+    "trackOrder": "تتبع الطلب"
+  }
+} 

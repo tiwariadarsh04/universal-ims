@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>You are offline -  Inventory Management System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #FF0099;
+      --primary-light: #FF33AD;
+      --primary-dark: #CC007A;
+      --secondary-color: #FFD700;
+      --secondary-light: #FFDF33;
+      --secondary-dark: #CCB000;
+      --background-dark: #121212;
+      --background-paper: #1E1E1E;
+      --text-primary: #FFFFFF;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --primary-gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+      --secondary-gradient: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-light) 100%);
+      --background-gradient: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: var(--background-gradient);
+      color: var(--text-primary);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .background-shapes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .shape {
+      position: absolute;
+      background: rgba(255, 0, 153, 0.1);
+      border-radius: 50%;
+      animation: float 15s infinite;
+    }
+
+    .shape:nth-child(1) {
+      width: 300px;
+      height: 300px;
+      top: -150px;
+      left: -150px;
+      animation-delay: 0s;
+    }
+
+    .shape:nth-child(2) {
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      right: -100px;
+      animation-delay: -5s;
+    }
+
+    .shape:nth-child(3) {
+      width: 150px;
+      height: 150px;
+      bottom: -75px;
+      left: 50%;
+      animation-delay: -10s;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+      33% {
+        transform: translate(30px, -50px) rotate(120deg);
+      }
+      66% {
+        transform: translate(-20px, 20px) rotate(240deg);
+      }
+      100% {
+        transform: translate(0, 0) rotate(360deg);
+      }
+    }
+
+    .container {
+      max-width: 800px;
+      padding: 3rem;
+      background: var(--background-paper);
+      border-radius: 24px;
+      box-shadow: 0 8px 32px 0 rgba(255, 0, 153, 0.3);
+      position: relative;
+      z-index: 2;
+      transform: translateY(0);
+      animation: slideUp 0.8s ease-out;
+      border: 1px solid rgba(255, 0, 153, 0.2);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+        margin: 1rem;
+        padding: 2rem;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .content-section {
+      text-align: left;
+    }
+
+    .logo {
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 2px 10px rgba(255, 0, 153, 0.3);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+
+    .logo span {
+      font-size: 1.2rem;
+      font-weight: 500;
+      opacity: 0.8;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 10px rgba(255, 0, 153, 0.5);
+      }
+      to {
+        text-shadow: 0 0 20px rgba(255, 0, 153, 0.8);
+      }
+    }
+
+    h1 {
+      margin-bottom: 1.5rem;
+      font-size: 2.5rem;
+      font-weight: 600;
+      background: var(--secondary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: var(--secondary-gradient);
+      border-radius: 2px;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+
+    .button {
+      background: var(--primary-gradient);
+      border: none;
+      color: white;
+      padding: 15px 35px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(255, 0, 153, 0.4);
+    }
+
+    .button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: 0.5s;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(255, 0, 153, 0.6);
+    }
+
+    .button:hover::before {
+      left: 100%;
+    }
+
+    .status-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .status-icon {
+      width: 200px;
+      height: 200px;
+      position: relative;
+    }
+
+    .status-icon svg {
+      width: 100%;
+      height: 100%;
+      animation: pulse 2s infinite;
+    }
+
+    .status-icon .wifi-symbol {
+      stroke: var(--primary-color);
+      stroke-width: 2;
+      fill: none;
+      animation: draw 2s ease-in-out infinite;
+    }
+
+    .status-icon .wifi-symbol.offline {
+      stroke: var(--text-secondary);
+      opacity: 0.5;
+    }
+
+    @keyframes draw {
+      0% {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+      }
+      50% {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 0;
+      }
+      100% {
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+      }
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 0, 153, 0.1);
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 0, 153, 0.2);
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .connection-status {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem;
+      background: rgba(18, 18, 18, 0.8);
+      backdrop-filter: blur(5px);
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      z-index: 3;
+      border-top: 1px solid rgba(255, 0, 153, 0.2);
+    }
+
+    .footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: var(--primary-light);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 1rem;
+        padding: 2rem;
+      }
+
+      .logo {
+        font-size: 2rem;
+      }
+
+      .logo span {
+        font-size: 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .button {
+        padding: 12px 28px;
+        font-size: 1rem;
+      }
+
+      .status-icon {
+        width: 150px;
+        height: 150px;
+      }
+
+      .footer {
+        padding: 0.8rem;
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background-shapes">
+    <div class="shape"></div>
+    <div class="shape"></div>
+    <div class="shape"></div>
+  </div>
+
+  <div class="container">
+    <div class="content-section">
+      <div class="logo">Inventory Management System <span>|| Powered by Konectile</span></div>
+      <h1>You're Currently Offline</h1>
+      <p>
+        It seems you're not connected to the internet at the moment. 
+        The Inventory Management System requires an internet connection to function properly.
+      </p>
+      <p>
+        Please check your connection and try again. We'll automatically reconnect when you're back online.
+      </p>
+      <a href="/" class="button">Try Again</a>
+    </div>
+
+    <div class="status-section">
+      <div class="status-icon">
+        <svg viewBox="0 0 24 24" class="wifi-symbol offline">
+          <path d="M12 21C15.5 17.4 19 14 19 14C17.5 12.5 15 10 12 10C9 10 6.5 12.5 5 14C5 14 8.5 17.4 12 21Z" />
+          <path d="M12 18C13.5 16.5 15 15 15 15C14.5 14.5 13 13 12 13C11 13 9.5 14.5 9 15C9 15 10.5 16.5 12 18Z" />
+          <circle cx="12" cy="12" r="2" />
+        </svg>
+      </div>
+      <div class="status-indicator">
+        <div class="status-dot"></div>
+        <span class="connection-status">Checking connection...</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Powered by <a href="https://konectile.com" target="_blank" rel="noopener noreferrer">Konectile</a>
+  </div>
+ 
+  <script>
+    const statusDot = document.querySelector('.status-dot');
+    const connectionStatus = document.querySelector('.connection-status');
+    const button = document.querySelector('.button');
+    const wifiSymbol = document.querySelector('.wifi-symbol');
+
+    function updateConnectionStatus() {
+      if (navigator.onLine) {
+        statusDot.style.background = '#4CAF50';
+        connectionStatus.textContent = 'Connected! Redirecting...';
+        wifiSymbol.classList.remove('offline');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } else {
+        statusDot.style.background = 'var(--primary-color)';
+        connectionStatus.textContent = 'Checking connection...';
+        wifiSymbol.classList.add('offline');
+      }
+    }
+
+    // Initial check
+    updateConnectionStatus();
+
+    // Listen for online/offline events
+    window.addEventListener('online', updateConnectionStatus);
+    window.addEventListener('offline', updateConnectionStatus);
+    
+    // Check connection status periodically
+    setInterval(updateConnectionStatus, 5000);
+
+    button.addEventListener('click', (e) => {
+      if (!navigator.onLine) {
+        e.preventDefault();
+        button.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+          button.style.animation = '';
+        }, 500);
+      }
+    });
+
+    // Add shake animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>
+ 
