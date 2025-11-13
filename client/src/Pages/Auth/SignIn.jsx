@@ -15,15 +15,12 @@ import {
   IconButton,
   FormControlLabel,
   Checkbox,
-  Slide,
   Zoom,
   useTheme,
   useMediaQuery,
-  Divider,
-  Snackbar,
-  Card,
+  alpha,
   Avatar,
-  alpha
+  Snackbar
 } from '@mui/material';
 import {
   ErrorOutline,
@@ -31,10 +28,8 @@ import {
   VisibilityOff,
   Lock,
   Email,
-  TouchApp,
   Fingerprint,
   LocationOn,
-  Security,
   ArrowForward,
   AccessTime,
   NotificationsActive,
@@ -106,10 +101,8 @@ const SignIn = () => {
   });
   const [loginAttemptTime, setLoginAttemptTime] = useState(null);
   const usernameRef = useRef(null);
-
   const navigate = useNavigate();
 
-  // Club theme colors - Matching the AuthWrapper with magenta to gold gradient
   const clubColors = {
     primary: "#FF0099",
     secondary: "#FFD700",
@@ -119,7 +112,6 @@ const SignIn = () => {
     gradient: "linear-gradient(45deg, #FF0099 30%, #FFD700 90%)"
   };
 
-  // Handle notification close
   const handleNotificationClose = () => {
     setNotification({...notification, open: false});
   };
@@ -149,9 +141,6 @@ const SignIn = () => {
   };
 
   const validateForm = () => {
-    // Email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
     if (!formState.username) {
       setFormState(prev => ({ 
         ...prev, 
@@ -184,31 +173,19 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate form
-    if (!validateForm()) {
-      return;
-    }
-
-    // Set login attempt time
+    if (!validateForm()) return;
     setLoginAttemptTime(new Date());
-
     setFormState(prev => ({ ...prev, isLoading: true, error: '' }));
-  
+
     try {
       const roleResponse = await getUserRole(formState.username);
+      if (roleResponse.error) throw new Error(roleResponse.error);
 
-      if (roleResponse.error) {
-        throw new Error(roleResponse.error);
-      }
-  
       const userRole = roleResponse.userRole;
-  
-      // Step 2: Collect device fingerprint and geolocation only for super admins
       let deviceFingerprint = null;
       let latitude = null;
       let longitude = null;
-  
+
       if (userRole === 'superadmin') {
         try {
           setNotification({
@@ -216,23 +193,15 @@ const SignIn = () => {
             message: 'Collecting security information for admin login...',
             severity: 'info'
           });
-          
-          // Get device fingerprint
           const fp = await FingerprintJS.load();
           const { visitorId } = await fp.get();
           deviceFingerprint = visitorId;
           setSecurityInfo(prev => ({...prev, fingerprint: true}));
-    
-          // Get geolocation
           const location = await new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(
               (position) => resolve(position.coords),
               (error) => reject(error),
-              {
-                timeout: 10000,
-                maximumAge: 60000,
-                enableHighAccuracy: true
-              }
+              { timeout: 10000, maximumAge: 60000, enableHighAccuracy: true }
             );
           });
           latitude = location.latitude;
@@ -245,11 +214,9 @@ const SignIn = () => {
             message: 'Could not verify location. Please enable location services.',
             severity: 'warning'
           });
-          
         }
       }
-  
-      // Step 3: Proceed with sign-in
+
       const res = await signInUserAndMember({
         username: formState.username.trim(),
         password: formState.password,
@@ -258,31 +225,24 @@ const SignIn = () => {
         longitude
       });
 
-      // Successful login
       if(res && res.success){
-        // Save user data
         localStorage.setItem('user', JSON.stringify(res?.user));
-        
-        // If remember me is checked, save username
         if (formState.rememberMe) {
           localStorage.setItem('rememberedUsername', formState.username);
         } else {
           localStorage.removeItem('rememberedUsername');
         }
-        
         setFormState(prev => ({ 
           ...prev, 
           isLoading: false, 
           isLoggedIn: true, 
           role: res?.user?.roles 
         }));
-        
         setNotification({
           open: true,
           message: 'Login successful! Redirecting...',
           severity: 'success'
         });
-
         return;
       } else {
         setFormState(prev => ({ 
@@ -292,52 +252,20 @@ const SignIn = () => {
           isLoading: false, 
           attempts: prev.attempts + 1
         }));
-      }      
-      
-    } catch (error) {
-      const attempts = formState.attempts + 1;
-      let errorMessage = 'An error occurred during sign-in';
-      let errorType = 'server';
-      
-      if (error.code) {
-        switch(error.code) {
-          case error.PERMISSION_DENIED:
-            errorMessage = 'Location permission denied. Please enable location services.';
-            errorType = 'location';
-            break;
-          case error.POSITION_UNAVAILABLE:
-            errorMessage = 'Location information is unavailable.';
-            errorType = 'location';
-            break;
-          case error.TIMEOUT:
-            errorMessage = 'Location request timed out.';
-            errorType = 'location';
-            break;
-          case error.UNKNOWN_ERROR:
-            errorMessage = 'An unknown error occurred while fetching location.';
-            errorType = 'server';
-            break;
-          default:
-            errorMessage = error.message || error;
-            errorType = 'server';
-        }
-      } else {
-        errorMessage = error.message || error;
-        errorType = 'server';
       }
 
-      // Show more specific error after multiple attempts
-      if (attempts >= 3) {
-        errorMessage = `${errorMessage} - ${5 - attempts} attempts remaining`;
+    } catch (error) {
+      const attempts = formState.attempts + 1;
+      let errorMessage = error.message || 'An error occurred during sign-in';
+      let errorType = 'server';
 
-        if(attempts > 5){
-          errorMessage = "Maximum attempts exceeded! Please try again later.";
-          setNotification({
-            open: true,
-            message: 'Account temporarily locked. Please try again after 15 minutes.',
-            severity: 'error'
-          });
-        }
+      if (attempts > 5){
+        errorMessage = "Maximum attempts exceeded! Please try again later.";
+        setNotification({
+          open: true,
+          message: 'Account temporarily locked. Please try again after 15 minutes.',
+          severity: 'error'
+        });
       }
 
       setFormState(prev => ({
@@ -352,28 +280,20 @@ const SignIn = () => {
 
   useEffect(() => {
     if (formState.role) {
-      const redirectPath = 
-        formState.role === 'user' || formState.role === 'viewer' 
-          ? '/welcome' 
-          : '/all-transaction';
-      
-      // Add a slight delay for better UX
+      const redirectPath = formState.role === 'user' || formState.role === 'viewer' 
+        ? '/welcome' 
+        : '/all-transaction';
       const timer = setTimeout(() => {
-      navigate(redirectPath, { replace: true });
-      window.location.reload();
+        navigate(redirectPath, { replace: true });
+        window.location.reload();
       }, 1500);
-      
       return () => clearTimeout(timer);
     }
   }, [formState.role, navigate]);
 
   useEffect(() => {
     const user = localStorage?.getItem('user') ? JSON.parse(localStorage.getItem('user')) : '';
-    if(user.token){
-      getAuthenticated(user.token);
-    }
-    
-    // Check for remembered username
+    if(user.token) getAuthenticated(user.token);
     const rememberedUsername = localStorage.getItem('rememberedUsername');
     if (rememberedUsername) {
       setFormState(prev => ({
@@ -381,34 +301,24 @@ const SignIn = () => {
         username: rememberedUsername,
         rememberMe: true
       }));
-    }
-    
-    // Focus the username field on load if it's empty
-    if (!rememberedUsername && usernameRef.current) {
+    } else if(usernameRef.current) {
       usernameRef.current.focus();
     }
   }, []);
 
-  // Calculate remaining time for locked account
   const getRemainingLockTime = () => {
     if (!loginAttemptTime || formState.attempts <= 5) return null;
-    
-    const lockTimeMs = 15 * 60 * 1000; // 15 minutes in milliseconds
+    const lockTimeMs = 15 * 60 * 1000;
     const now = new Date();
     const elapsedMs = now - loginAttemptTime;
     const remainingMs = lockTimeMs - elapsedMs;
-    
     if (remainingMs <= 0) return null;
-    
     const minutes = Math.floor(remainingMs / 60000);
     const seconds = Math.floor((remainingMs % 60000) / 1000);
-    
     return `${minutes}m ${seconds}s`;
   };
-  
   const lockTimeRemaining = getRemainingLockTime();
 
-  // Club features to showcase
   const clubFeatures = [
     { name: "Sports Activities", icon: <SportsCricket /> },
     { name: "Fine Dining", icon: <Restaurant /> },
@@ -417,45 +327,29 @@ const SignIn = () => {
   ];
 
   useEffect(() => {
-  const loadCompanyProfile = async () => {
-    try {
-      // 1. Check if localStorage is available
-      if (typeof window === 'undefined' || !window.localStorage) {
-        console.warn('localStorage is not available');
-        return;
-      }
-
-      // 2. Safely get and parse the profile
-      const storedProfile = localStorage?.getItem('companyProfile');
-      if (storedProfile) {
-        try {
-          const parsedProfile = JSON.parse(storedProfile);
-          setCompanyProfile(parsedProfile);
-          console.log('Loaded profile from localStorage:', parsedProfile);
-        } catch (parseError) {
-          console.error('Failed to parse stored profile:', parseError);
-          // Clear corrupted data
-          localStorage.removeItem('companyProfile');
+    const loadCompanyProfile = async () => {
+      try {
+        const storedProfile = localStorage?.getItem('companyProfile');
+        if (storedProfile) {
+          try {
+            const parsedProfile = JSON.parse(storedProfile);
+            setCompanyProfile(parsedProfile);
+          } catch (parseError) {
+            localStorage.removeItem('companyProfile');
+          }
+        } else {
+          const freshProfile = await getCompanyProfile();
+          if (freshProfile) {
+            setCompanyProfile(freshProfile[0]);
+            localStorage.setItem('companyProfile', JSON.stringify(freshProfile[0]));
+          }
         }
-      } else {
-        console.log('No company profile found in localStorage');
+      } catch (error) {
+        console.error('Error loading company profile:', error);
       }
-
-      // 3. Optional: Fetch fresh data if no cached version exists
-      if (!storedProfile) {
-        const freshProfile = await getCompanyProfile(); // Your API call
-        if (freshProfile) {
-          setCompanyProfile(freshProfile[0]);
-          localStorage.setItem('companyProfile', JSON.stringify(freshProfile[0]));
-        }
-      }
-    } catch (error) {
-      console.error('Error loading company profile:', error);
-    }
-  };
-
-  loadCompanyProfile();
-}, []);
+    };
+    loadCompanyProfile();
+  }, []);
 
   return (
     <>
@@ -464,57 +358,16 @@ const SignIn = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.7 }}
-      sx={{
-        minHeight: '90vh',
-        display: 'flex',
-        overflow: 'hidden',
-        position: 'relative',
-      }}
+      sx={{ minHeight: '90vh', display: 'flex', overflow: 'hidden', position: 'relative' }}
     >
-      {/* Left Section - Brand/Image */}
       {!isMobile && (
         <Box
           component={motion.div}
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
-          sx={{
-            width: '45%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            p: 4,
-            overflow: 'hidden',
-          }}
+          sx={{ width: '45%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', p: 4 }}
         >
-          <Box
-            sx={{
-              position: 'absolute',
-              top: '10%',
-              right: '15%',
-              width: '220px',
-              height: '220px',
-              borderRadius: '50%',
-              background: 'rgba(255, 215, 0, 0.15)',
-              filter: 'blur(60px)',
-            }}
-          />
-
-          <Box
-            sx={{
-              position: 'absolute',
-              bottom: '15%',
-              left: '10%',
-              width: '180px',
-              height: '180px',
-              borderRadius: '50%',
-              background: 'rgba(255, 15, 159, 0.2)',
-              filter: 'blur(50px)',
-            }}
-          />
-
           <Box sx={{ zIndex: 2, textAlign: 'center', maxWidth: '90%' }}>
             <Box
               component={motion.div}
@@ -526,187 +379,20 @@ const SignIn = () => {
                 component="img"
                 src={companyProfile?.logoUrl || LOGO}
                 alt="Club logo"
-                sx={{
-                  width: 100,
-                  mb: 2,
-                  filter: 'drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.15))',
-                }}
+                sx={{ width: 100, mb: 2, filter: 'drop-shadow(0px 6px 12px rgba(0, 0, 0, 0.15))' }}
               />
             </Box>
-            
-
-            <CustomTypography>
-            Your exclusive membership experience
-            </CustomTypography>
-            <Box
-              sx={{
-                mb: 5,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 1,
-                position: 'relative'
-              }}
-            >
-              <Typography
-                variant="caption"
-                sx={{
-                  color: alpha(theme.palette.text.primary, 0.7),
-                  fontSize: '0.85rem',
-                  fontWeight: 500,
-                  letterSpacing: '0.5px',
-                  textTransform: 'capitalize',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 0.5
-                }}
-              >
-                Powered by
-                <Box
-                  component="span"
-                  sx={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    background: clubColors.gradient,
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    fontWeight: 600,
-                    position: 'relative',
-                    '&:after': {
-                      content: '""',
-                      position: 'absolute',
-                      width: '100%',
-                      height: '1px',
-                      bottom: -2,
-                      left: 0,
-                      background: clubColors.gradient,
-                      transform: 'scaleX(0)',
-                      transformOrigin: 'right',
-                      transition: 'transform 0.3s ease'
-                    },
-                    '&:hover:after': {
-                      transform: 'scaleX(1)',
-                      transformOrigin: 'left'
-                    }
-                  }}
-                >
-                  <a 
-                    href="https://konectile.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    style={{
-                      textDecoration: 'none',
-                      color: 'inherit',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: '4px'
-                    }}
-                  >
-                    Konectile
-                    <Box
-                      component="span"
-                      sx={{
-                        display: 'inline-block',
-                        width: '6px',
-                        height: '6px',
-                        borderRadius: '50%',
-                        background: clubColors.gradient,
-                        animation: 'pulse 2s infinite',
-                        '@keyframes pulse': {
-                          '0%': {
-                            transform: 'scale(0.95)',
-                            boxShadow: `0 0 0 0 ${alpha(clubColors.primary, 0.7)}`
-                          },
-                          '70%': {
-                            transform: 'scale(1)',
-                            boxShadow: `0 0 0 4px ${alpha(clubColors.primary, 0)}`
-                          },
-                          '100%': {
-                            transform: 'scale(0.95)',
-                            boxShadow: `0 0 0 0 ${alpha(clubColors.primary, 0)}`
-                          }
-                        }
-                      }}
-                    />
-                  </a>
-                </Box>
-              </Typography>
-            </Box>
-            
-            {/* Club features section */}
-            <Box 
-              component={motion.div}
-              variants={fadeInStagger}
-              initial="hidden"
-              animate="visible"
-              sx={{ 
-                mt: 4, 
-                display: 'grid', 
-                gridTemplateColumns: 'repeat(2, 1fr)',
-                gap: 3,
-                maxWidth: '400px',
-                mx: 'auto'
-              }}
-            >
-              {clubFeatures.map((feature, index) => (
-                <Paper
-                  key={index}
-                  component={motion.div}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 + (index * 0.1) }}
-                  elevation={2}
-                  sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    borderRadius: '12px',
-                    background: 'rgba(255, 255, 255, 0.15)',
-                    backdropFilter: 'blur(10px)',
-                    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.1)',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                      boxShadow: '0 12px 20px rgba(0, 0, 0, 0.15)',
-                    }
-                  }}
-                >
-                  <Avatar
-                    sx={{ 
-                      background: 'linear-gradient(45deg, #FF0099 30%, #FFD700 90%)', 
-                      mb: 1.5,
-                      width: 50,
-                      height: 50,
-                      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-                    }}
-                  >
-                    {feature.icon}
-                  </Avatar>
-                  <CustomTypography fontWeight={500} fontSize={16}>
-                      {feature.name}
-                  </CustomTypography>
-                </Paper>
-              ))}
-            </Box>
+            <CustomTypography>Your exclusive membership experience</CustomTypography>
           </Box>
         </Box>
       )}
 
-      {/* Right Section - Login Form */}
       <Box
         component={motion.div}
         initial={{ opacity: 0, x: isMobile ? 0 : 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.5 }}
-        sx={{
-          width: isMobile ? '100%' : '55%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          py: 4,
-          px: isMobile ? 2 : 8,
-        }}
+        sx={{ width: isMobile ? '100%' : '55%', display: 'flex', flexDirection: 'column', justifyContent: 'center', py: 4, px: isMobile ? 2 : 8 }}
       >
         {isMobile && (
           <Box sx={{ textAlign: 'center', mb: 5 }}>
@@ -720,29 +406,9 @@ const SignIn = () => {
                 component="img"
                 src={companyProfile?.logoUrl || LOGO}
                 alt="Club logo"
-                sx={{ 
-                  width: 100, 
-                  mb: 2,
-                  filter: 'drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.1))'
-                }}
+                sx={{ width: 100, mb: 2, filter: 'drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.1))' }}
               />
             </Box>
-            <Typography 
-              variant="h4" 
-              component="h1" 
-              sx={{ 
-                fontWeight: 700,
-                background: clubColors.gradient,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                mb: 1
-              }}
-            >
-              {companyProfile?.name}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              Sign in to access your account
-            </Typography>
           </Box>
         )}
 
@@ -760,339 +426,166 @@ const SignIn = () => {
             overflow: 'hidden',
             position: 'relative',
             backgroundColor: clubColors.cardBg,
-            backgroundImage: theme.palette.mode === 'dark' 
-              ? 'linear-gradient(rgba(255, 0, 153, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 0, 153, 0.05) 1px, transparent 1px)' 
-              : 'linear-gradient(rgba(255, 0, 153, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 0, 153, 0.03) 1px, transparent 1px)',
-            backgroundSize: '20px 20px',
-            boxShadow: theme.palette.mode === 'dark' 
-              ? '0 10px 30px rgba(0, 0, 0, 0.3)' 
-              : '0 10px 30px rgba(255, 0, 153, 0.1)',
-            '&:before': {
-              content: '""',
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: 5,
-              background: clubColors.gradient
+            backdropFilter: 'blur(12px)',
+            boxShadow: theme.palette.mode === 'dark'
+              ? '0 15px 35px rgba(0,0,0,0.3)'
+              : '0 15px 35px rgba(255,0,153,0.15)',
+            '&:hover': {
+              transform: 'translateY(-3px)',
+              boxShadow: theme.palette.mode === 'dark'
+                ? '0 20px 40px rgba(0,0,0,0.4)'
+                : '0 20px 40px rgba(255,0,153,0.2)',
+              transition: 'all 0.3s ease'
             }
           }}
         >
-          {/* Card header with accent color */}
-          <Box 
-            sx={{ 
-              py: 2.5, 
-              px: 3, 
-              borderBottom: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-              background: theme.palette.mode === 'dark' 
-                ? alpha(clubColors.primary, 0.08)
-                : alpha(clubColors.primary, 0.03),
-            }}
-          >
-            <Typography 
-              variant="h5" 
-              component="h2" 
-              sx={{ 
-                fontWeight: 600,
-                background: clubColors.gradient,
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              Welcome to {companyProfile?.name}
-            </Typography>
-            <Typography 
-              variant="body2" 
-              sx={{ 
-                color: theme.palette.text.secondary,
-                mt: 0.5
-              }}
-            >
-              Sign in to access exclusive member features
-            </Typography>
-          </Box>
-
           <Box sx={{ p: 3, pt: 4 }}>
             {formState.error && (
               <Zoom in={!!formState.error}>
-          <Alert 
-            severity="error" 
-            icon={<ErrorOutline fontSize="inherit" />}
-                  sx={{ 
-                    width: '100%', 
-                    mb: 3,
-                    borderRadius: 2,
-                    '& .MuiAlert-message': {
-                      width: '100%'
-                    }
-                  }}
-                  action={
-                    formState.errorType === 'location' ? (
-                      <Button 
-                        color="error" 
-                        size="small"
-                        onClick={() => {
-                          // Re-request permissions
-                          navigator.geolocation.getCurrentPosition(() => {}, () => {});
-                        }}
-                      >
-                        Enable
-                      </Button>
-                    ) : null
-                  }
-          >
-            {formState.error}
-                  {formState.attempts > 3 && (
-                    <Typography variant="caption" component="div" sx={{ mt: 1, display: 'flex', alignItems: 'center' }}>
-                      <AccessTime fontSize="small" sx={{ mr: 0.5, fontSize: '1rem' }} />
-                      Too many failed attempts may lock your account
-                    </Typography>
-                  )}
-          </Alert>
+                <Alert severity="error" icon={<ErrorOutline fontSize="inherit" />} sx={{ width: '100%', mb: 3, borderRadius: 2 }}>
+                  {formState.error}
+                </Alert>
               </Zoom>
             )}
-
-            {formState.isLoggedIn && (
-              <Zoom in={formState.isLoggedIn}>
-          <Alert 
-            severity="success" 
-                  sx={{ width: '100%', mb: 3, borderRadius: 2 }}
-          >
-            Logged in successfully! Redirecting...
-          </Alert>
-              </Zoom>
-            )}
-
-            {lockTimeRemaining && (
-              <Alert
-                severity="warning"
-                icon={<NotificationsActive />}
-                sx={{ mb: 3, borderRadius: 2 }}
-              >
-                <Typography variant="subtitle2">
-                  Account temporarily locked
-                </Typography>
-                <Typography variant="body2" sx={{ mt: 0.5 }}>
-                  Please try again in {lockTimeRemaining}
-          </Typography>
-              </Alert>
-        )}
-
-        <Box 
-          component="form" 
-          onSubmit={handleSubmit} 
-          sx={{ 
-            width: '100%',
-            '& .MuiTextField-root': {
-                  mb: 3
-            }
-          }}
-        >
-          <TextField
+            <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%', '& .MuiTextField-root': { mb: 3 } }}>
+              <TextField
                 inputRef={usernameRef}
-            margin="normal"
-            required
-            fullWidth
-            label="Email / Username"
-            name="username"
-            autoComplete="username"
+                margin="normal"
+                required
+                fullWidth
+                label="Email / Username"
+                name="username"
+                autoComplete="username"
                 autoFocus={!formState.username}
-            value={formState.username}
-            onChange={handleChange}
+                value={formState.username}
+                onChange={handleChange}
                 error={formState.errorType === 'username'}
                 helperText={formState.errorType === 'username' ? formState.error : ''}
                 disabled={!!lockTimeRemaining || formState.isLoading}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                      <Email />
-                </InputAdornment>
-              )
-            }}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><Email /></InputAdornment>
+                }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
                     borderRadius: 2,
-                    transition: 'all 0.2s',
+                    transition: 'all 0.25s ease-in-out',
                     '&.Mui-focused': {
-                      boxShadow: `0 0 0 2px ${alpha(clubColors.primary, 0.2)}`
+                      boxShadow: `0 0 0 2px ${alpha(clubColors.primary, 0.3)}`,
+                      borderColor: clubColors.primary
                     }
                   },
-                  '& .MuiInputLabel-root': {
-                    color: alpha(theme.palette.text.primary, 0.7)
-                  },
-                  '& .MuiInputLabel-root.Mui-focused': {
-                    color: clubColors.primary
-                  }
+                  '& .MuiInputLabel-root': { color: alpha(theme.palette.text.primary, 0.7), transition: 'color 0.25s' },
+                  '& .MuiInputLabel-root.Mui-focused': { color: clubColors.primary }
                 }}
-          />
-          
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type={formState.showPassword ? "text" : "password"}
-            autoComplete="current-password"
-            value={formState.password}
-            onChange={handleChange}
+              />
+
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type={formState.showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                value={formState.password}
+                onChange={handleChange}
                 error={formState.errorType === 'password'}
                 helperText={formState.errorType === 'password' ? formState.error : ''}
                 disabled={!!lockTimeRemaining || formState.isLoading}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                      <Lock />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={togglePasswordVisibility}
-                    edge="end"
-                        disabled={!!lockTimeRemaining || formState.isLoading}
-                  >
-                    {formState.showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"><Lock /></InputAdornment>,
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={togglePasswordVisibility} edge="end" disabled={!!lockTimeRemaining || formState.isLoading}>
+                        {formState.showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
                 sx={{
                   '& .MuiOutlinedInput-root': {
                     borderRadius: 2,
-                    transition: 'all 0.2s',
+                    transition: 'all 0.25s ease-in-out',
                     '&.Mui-focused': {
-                      boxShadow: `0 0 0 2px ${alpha(clubColors.primary, 0.2)}`
+                      boxShadow: `0 0 0 2px ${alpha(clubColors.primary, 0.3)}`,
+                      borderColor: clubColors.primary
                     }
                   },
-                  '& .MuiInputLabel-root': {
-                    color: alpha(theme.palette.text.primary, 0.7)
-                  },
-                  '& .MuiInputLabel-root.Mui-focused': {
-                    color: clubColors.primary
-                  }
+                  '& .MuiInputLabel-root': { color: alpha(theme.palette.text.primary, 0.7), transition: 'color 0.25s' },
+                  '& .MuiInputLabel-root.Mui-focused': { color: clubColors.primary }
                 }}
               />
-              
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3, alignItems: 'center' }}>
-                <FormControlLabel
-                  control={
-                    <Checkbox 
-                      checked={formState.rememberMe} 
-                      onChange={(e) => setFormState(prev => ({...prev, rememberMe: e.target.checked}))}
-                      name="rememberMe"
-                      sx={{ 
-                        color: alpha(clubColors.primary, 0.7),
-                        '&.Mui-checked': {
-                          color: clubColors.primary,
-                        }
-                      }}
-                      disabled={!!lockTimeRemaining || formState.isLoading}
-                    />
-                  }
-                  label={<Typography variant="body2">Remember me</Typography>}
-                />
-                
-                <Link 
-                  to="/auth/forget-password" 
-                  style={{ 
-                    color: clubColors.primary,
-                    textDecoration: 'none',
-                    fontSize: '0.875rem',
-                    fontWeight: 500
-                  }}
-                >
-                  Forgot password?
-                </Link>
-              </Box>
-          
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            size="large"
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                size="large"
                 disabled={!!lockTimeRemaining || formState.isLoading || formState.isLoggedIn}
                 endIcon={!formState.isLoading && <ArrowForward />}
-            sx={{
-              py: 1.5,
+                sx={{
+                  py: 1.5,
                   borderRadius: 2,
-              fontSize: '1rem',
-              textTransform: 'none',
+                  fontSize: '1rem',
+                  textTransform: 'none',
                   fontWeight: 600,
-              boxShadow: 'none',
                   position: 'relative',
                   overflow: 'hidden',
-                  // background: clubColors.gradient,
-                  // '&:hover': {
-                  //   boxShadow: `0 4px 12px ${alpha(clubColors.primary, 0.3)}`,
-                  //   background: 'linear-gradient(45deg, #FF0099 20%, #FFD700 100%)'
-                  // },
+                  background: 'linear-gradient(45deg, #FF0099 30%, #FFD700 90%)',
+                  color: '#fff',
+                  '&:hover': {
+                    background: 'linear-gradient(45deg, #FFD700 30%, #FF0099 90%)',
+                    boxShadow: '0 6px 20px rgba(255, 0, 153, 0.3)',
+                  },
                   '&.Mui-disabled': {
-                    background: theme.palette.mode === 'dark' 
+                    background: theme.palette.mode === 'dark'
                       ? alpha(clubColors.primary, 0.3)
-                      : alpha(clubColors.primary, 0.12)
-              }
-            }}
-          >
-            {formState.isLoading ? (
-              <CircularProgress size={24} color="inherit" />
-            ) : formState.isLoggedIn ? (
-              'Success!'
-            ) : (
-              'Sign In'
-            )}
-          </Button>
-          
-              {/* Security info for admin login */}
-              {formState.isLoading && securityInfo.fingerprint && (
-                <Box sx={{ mt: 3, textAlign: 'center' }}>
-                  <Typography variant="body2" color="text.secondary" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-                    <Fingerprint color="success" /> Device verification completed
-                  </Typography>
-                  {securityInfo.location && (
-                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-                      <LocationOn color="success" /> Location verification completed
-                    </Typography>
-                  )}
-                </Box>
-              )}
+                      : alpha(clubColors.primary, 0.12),
+                    color: alpha('#fff', 0.7)
+                  }
+                }}
+              >
+                {formState.isLoading ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : formState.isLoggedIn ? (
+                  'Success!'
+                ) : (
+                  'Sign In'
+                )}
+              </Button>
+
+              <FormControlLabel
+                control={<Checkbox checked={formState.rememberMe} onChange={() => setFormState(prev => ({...prev, rememberMe: !prev.rememberMe}))} />}
+                label="Remember me"
+                sx={{ mt: 2 }}
+              />
             </Box>
+
+            {lockTimeRemaining && (
+              <Box sx={{ mt: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                <AccessTime fontSize="small" /> Account temporarily locked: {lockTimeRemaining}
+              </Box>
+            )}
           </Box>
         </Paper>
-      </Box>
 
-      {/* Notification Snackbar */}
-      <Snackbar
-        open={notification.open}
-        autoHideDuration={6000}
-        onClose={handleNotificationClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert 
-          onClose={handleNotificationClose} 
-          severity={notification.severity}
-                sx={{ 
-            width: '100%', 
-            boxShadow: 3, 
-            borderRadius: 2,
-            '&.MuiAlert-standardSuccess': {
-              backgroundColor: alpha(clubColors.accent, 0.9),
-              color: '#fff'
-            },
-            '&.MuiAlert-standardInfo': {
-              backgroundColor: alpha(clubColors.primary, 0.9),
-              color: '#fff'
-            }
-          }}
-        >
-          {notification.message}
-        </Alert>
-      </Snackbar>
+        <Box sx={{ mt: 5, textAlign: 'center' }}>
+          <Typography variant="body2" color="text.secondary">
+            Don't have an account? <Link to="/signup">Sign Up</Link>
+          </Typography>
         </Box>
-      <SignInFooter />
-      </>
+      </Box>
+    </Box>
+
+    <Snackbar
+      open={notification.open}
+      autoHideDuration={4000}
+      onClose={handleNotificationClose}
+      message={notification.message}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+    />
+    </>
   );
 };
 
 export default SignIn;
-
